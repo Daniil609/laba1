@@ -14,7 +14,7 @@ namespace laba1
             
             int collichestvo = 0;
             int size = 0;
-            string parth = @"/Users/tomashikdaniil";
+            string parth = @"/Users/tomashikdaniil/test";
             string options = "1) Choose the directory." +
                     " \n2) Write in file. \n3) Read information from file. \n4) Get information about the file. \n5) Copy from one file to another. " +
                      " \n6) Delete file. \n7) Compress file. \n8) Decompress file. \n9) Rename file.";
@@ -37,7 +37,7 @@ namespace laba1
                     case "1": CreateOpenDirectiory(); break;
                     case "2": Write(); break;
                     case "3": Read(); break;
-                    case "4": Copy(); break;
+                    case "4": SearchInfo(); break;
                     case "5": Copy(); break;
                     case "6": DeleteFile(); break;
                     case "7": Compress(); break;
@@ -72,7 +72,7 @@ namespace laba1
                 int i = 0;
                 foreach (Car p in cars)
                 {
-                    text += $"{i + 1}) marka: {p.Marka}  Country: {p.Country} year: {p.Year()} \n";
+                    text += $"{i + 1}) marka: {p.Marka}  Country: {p.Country} year: {p.Year} \n";
                     i++;
                 }
                 using (FileStream sourceStream = new FileStream($"{parth}" + @"\" + $"{name}.txt", FileMode.OpenOrCreate))
@@ -173,6 +173,32 @@ namespace laba1
                     Console.WriteLine("\nThis file isn't exist or it has been deleted earlier\n");
                 }
             }
+            void SearchInfo()
+            {
+
+                Console.WriteLine("Enter the path to selected file: \n");
+                string path = Console.ReadLine();
+
+                try
+                {
+                    FileInfo inf = new FileInfo(path);
+                    if (inf.Exists)
+                    {
+                        Console.WriteLine("\nFile name: {0}", inf.Name);
+                        Console.WriteLine("Time of creation: {0}", inf.CreationTime);
+                        Console.WriteLine("Size: {0}", inf.Length);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Something went wrong... Try again...");
+                    }
+                }
+                catch (IOException excpt)
+                {
+                    Console.Write(excpt.Message);
+                }
+            }
+
             void Copy()
             {
                 Console.WriteLine("\nPlease, enter path to the source file: ");
@@ -250,6 +276,15 @@ namespace laba1
             }
 
         }
+    }
+
+    internal class Car
+    {
+        public string Marka { get; set; }
+        public string Country { get; set; }
+        public string Year { get; set; }
+
+   
     }
 }
 
